@@ -1,0 +1,8 @@
+{
+    "source_type": "string",
+    "source_name": "string",
+    "project": "string",
+    "date_collected": "string (ISO 8601)",
+    "raw_content": "string",
+    "metadata": "object (depends on source)"
+}

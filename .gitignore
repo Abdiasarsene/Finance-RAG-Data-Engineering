@@ -1,0 +1,7 @@
+minio/
+data/
+.pytest_cache/
+__pycache__/
+# Files
+.env
+docker-compose.minio.yaml
