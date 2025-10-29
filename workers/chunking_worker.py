@@ -1,7 +1,7 @@
 # src/workers/chunker_worker.py
 from workers.base_worker import BaseWorker
 from src.chunker.chunker_engine import ChunkerEngine
-from src.chunker.core.config_loader import load_chunker_config
+from src.core.config_loader import load_config
 from logs.logger import logger
 from metrics.monitoring import increment_chunks
 
@@ -16,7 +16,7 @@ class ChunkerWorker(BaseWorker):
 
     def __init__(self, config_path="chunker/chunker_config.yaml"):
         super().__init__(worker_name=self.worker_name)
-        self.config = load_chunker_config(config_path)
+        self.config = load_config(config_path)
         self.engine = ChunkerEngine(self.config)
 
     def process_message(self, msg: dict):

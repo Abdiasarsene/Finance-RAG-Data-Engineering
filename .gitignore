@@ -1,7 +1,10 @@
-minio/
+# Directories
 data/
 .pytest_cache/
 __pycache__/
+.ruff_cache/
+
 # Files
 .env
 docker-compose.minio.yaml
+docker-compose.milvus.yaml

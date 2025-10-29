@@ -2,9 +2,8 @@
 import time
 import traceback
 from abc import ABC, abstractmethod
-
-from rabbitmq.rabbitmq_client import RabbitMQCLient
-from metrics.monitoring import increment_messages, observe_processing_time, set_queue_size
+from connectors.rabbitmq.rabbitmq_client import RabbitMQCLient
+from metrics.monitoring import increment_messages, observe_processing_time
 from logs.logger import logger
 
 

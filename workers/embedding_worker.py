@@ -1,7 +1,7 @@
 # src/workers/embedding_worker.py
 from workers.base_worker import BaseWorker
 from src.embedding.embedding_engine import EmbeddingEngine
-from src.embedding.config_loader import load_chunker_config
+from src.core.config_loader import load_config
 from logs.logger import logger
 from metrics.monitoring import increment_messages, observe_processing_time, increment_errors, Gauge
 
@@ -23,7 +23,7 @@ class EmbeddingWorker(BaseWorker):
 
     def __init__(self, config_path="embedding/embedding_config.yaml", model_client=None):
         super().__init__(worker_name=self.worker_name)
-        self.config = load_chunker_config(config_path)
+        self.config = load_config(config_path)
         self.engine = EmbeddingEngine(self.config, model_client=model_client)
 
     def process_message(self, msg: dict):

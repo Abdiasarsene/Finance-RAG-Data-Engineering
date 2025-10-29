@@ -8,7 +8,7 @@ from metrics.monitoring import (
     increment_errors
 )
 from src.chunker.chunker_strategies import ChunkStrategies
-from src.chunker.core.utils import ChunkUtils
+from src.chunker.chunk_utils import ChunkUtils
 
 
 class ChunkerEngine:
