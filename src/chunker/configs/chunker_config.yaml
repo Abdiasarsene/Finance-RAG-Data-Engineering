@@ -1,0 +1,12 @@
+# chunker/configs/chunker_config.yaml
+
+strategy: by_tokens       # options: by_tokens | by_sentence | by_paragraph
+max_tokens: 512
+overlap: 50
+
+input_queue: process.output
+output_queue: embedding.input
+
+metrics:
+  enabled: true
+  namespace: chunker
