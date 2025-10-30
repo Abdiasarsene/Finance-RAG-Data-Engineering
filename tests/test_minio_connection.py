@@ -1,5 +1,5 @@
 # tests/test_minio_connection.py
-from src.minio_connector.minio_connection import MinioConnection
+from connectors.minio.minio_connector.minio_connection import MinioConnection
 
 # Test
 def test_minio_connect():
