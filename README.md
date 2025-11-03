@@ -26,6 +26,16 @@
 
 ---
 
+---
+
+## 🔃Data Pipeline Overview
+
+Extraction & Storage – Raw data is collected from PDFs, URLs, and APIs, transformed into a unified JSON schema, and stored in MinIO. A dedicated worker (extract_worker.py) orchestrates message reception, applies domain-specific extractors, and publishes results. Structured logging and Prometheus metrics provide full traceability, observability, and scalability.
+
+Processing, Chunking & Embedding – Texts are cleaned, deduplicated, language-detected, and format-validated by dedicated modules. Long texts are split into context-preserving chunks (by sentence, paragraph, or token) with overlaps and annotated with metadata. Chunks are then converted into semantic embeddings and stored in Milvus for fast retrieval. Orchestration (queues, retries, logs) remains fully decoupled from business logic, ensuring modular, reliable, and AI-ready data.
+
+---
+
 ## 🏗️ Architecture Snapshot
 
 ```
