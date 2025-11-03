@@ -1,5 +1,7 @@
+# src/processing/deduper.py
 from logs.logger import logger
 
+# ====== DEDUPE DOCUMENT ======
 def dedupe_document(text: str, message_id: str = None) -> str:
     if not text:
         return ""

@@ -1,13 +1,15 @@
-# chunker/core/utils.py
+# src/chunking/chunk_utils.py
 import uuid
 from typing import List, Dict
 from logs.logger import logger
 
-
-class ChunkUtils:
+# ====== CHUNK UTILS =====
+class ChunkerUtils:
+    # Set up
     def __init__(self):
         pass
 
+    # Build chunk
     def build_chunks(self, segments: List[str]) -> List[Dict]:
         try:
             chunks = []
@@ -23,5 +25,5 @@ class ChunkUtils:
                 offset += len(segment)
             return chunks
         except Exception as e:
-            logger.error("Erreur lors de la construction des chunks", error=str(e))
-            raise
+            logger.error("❌ Error Detected", error=str(e))
+            raise e

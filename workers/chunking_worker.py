@@ -1,6 +1,6 @@
 # src/workers/chunker_worker.py
 from workers.base_worker import BaseWorker
-from src.chunker.chunker_engine import ChunkerEngine
+from src.chunking.chunker_engine import ChunkerEngine
 from src.core.config_loader import load_config
 from logs.logger import logger
 from metrics.monitoring import increment_chunks

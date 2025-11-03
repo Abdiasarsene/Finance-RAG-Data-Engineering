@@ -1,7 +1,9 @@
+# src/processing/language_detector.py
 from langdetect import detect, DetectorFactory
 from logs.logger import logger
 
-DetectorFactory.seed = 0  # for stable results
+# ====== DETECT LANGUAGE ======
+DetectorFactory.seed = 0
 
 def detect_language(text: str, message_id: str = None) -> str:
     if not text:

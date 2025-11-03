@@ -5,7 +5,7 @@ import structlog
 
 # ====== LOGGING PYTHON ======
 logging.basicConfig(
-    format="%(message)",
+    format="%(message)s",
     stream=sys.stdout,
     level=logging.INFO
 )

@@ -3,19 +3,20 @@ import pytest
 import time
 from connectors.rabbitmq.rabbitmq_client import RabbitMQClient
 
+# ====== TEST RABBITMQ CONNECTION AND PUBLISH CONSUME ======
 QUEUE_NAME = "test_queue"
 
 def test_rabbitmq_connection_and_publish_consume():
     client = RabbitMQClient()
 
-    # 1️⃣ Déclarer la queue
+    # Declare tail
     client.declare_queue(QUEUE_NAME)
 
-    # 2️⃣ Publier un message
+    # Publish message
     message = {"test": "hello"}
     client.publish(QUEUE_NAME, message)
 
-    # 3️⃣ Consommer le message
+    # 3️⃣ Consume  message
     received_messages = []
 
     def callback(msg):
@@ -23,12 +24,12 @@ def test_rabbitmq_connection_and_publish_consume():
 
     client.consume(QUEUE_NAME, callback, auto_ack=True)
 
-    # start_consuming bloque, donc on lance dans un thread pour test
+    # Start_consuming
     import threading
     consume_thread = threading.Thread(target=client.start_consuming, daemon=True)
     consume_thread.start()
 
-    # Attendre que le message soit consommé
+    # Wait for the message to be consumed
     timeout = 5
     start = time.time()
     while not received_messages and time.time() - start < timeout:

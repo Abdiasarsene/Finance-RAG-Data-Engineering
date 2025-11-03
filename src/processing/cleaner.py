@@ -1,3 +1,4 @@
+# src/processing/cleaner.py
 import re
 from bs4 import BeautifulSoup
 from logs.logger import logger
@@ -25,4 +26,4 @@ def clean_text(text: str, message_id: str = None) -> str:
             message_id=message_id,
             error=str(e)
         )
-        raise
+        raise e
