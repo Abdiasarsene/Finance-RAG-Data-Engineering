@@ -3,7 +3,7 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 
-# Connexion à MinIO
+# Connect MinIO
 s3 = boto3.client(
     "s3",
     endpoint_url="http://localhost:9000",
@@ -11,6 +11,7 @@ s3 = boto3.client(
     aws_secret_access_key="minioadmin"
 )
 
+# ====== ENSURE BUCKET EXISTS ======
 def ensure_bucket_exists(bucket_name):
     try:
         s3.head_bucket(Bucket=bucket_name)
@@ -24,6 +25,7 @@ def ensure_bucket_exists(bucket_name):
             print(f"❌ Failed check/create bucket: {e}")
             raise
 
+# ====== UPLOAD FOLDER ======
 def upload_folder(local_folder, bucket, project):
     """_summary_
 

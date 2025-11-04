@@ -1,20 +1,18 @@
-# src/workers/chunker_worker.py
+# workers/chunking_worker.py
 from workers.base_worker import BaseWorker
 from src.chunking.chunker_engine import ChunkerEngine
 from src.core.config_loader import load_config
 from logs.logger import logger
 from metrics.monitoring import increment_chunks
 
+# ====== CHILD WORK - CHUNKERWORKER ======
 class ChunkerWorker(BaseWorker):
-    """
-    Worker qui découpe les messages déjà prétraités en chunks.
-    Pipeline : Cleaned/validated text → ChunkEngine → enrichissement message
-    """
-    input_queue = "processed_messages"    # queue provenant du ProcessWorker
-    output_queue = "chunked_messages"     # queue pour l'étape suivante
+    input_queue = "processed_messages"    # queue from ProcessWorker
+    output_queue = "chunked_messages"     # queue for next step
     worker_name = "ChunkerWorker"
 
-    def __init__(self, config_path="chunker/chunker_config.yaml"):
+    # Set up
+    def __init__(self, config_path="src/chunking/configs/chunker_config.yaml"):
         super().__init__(worker_name=self.worker_name)
         self.config = load_config(config_path)
         self.engine = ChunkerEngine(self.config)
@@ -24,18 +22,18 @@ class ChunkerWorker(BaseWorker):
         text = msg.get("text", "")
 
         if not text.strip():
-            logger.warning("Message vide reçu pour chunking", message_id=message_id)
+            logger.warning("Empty message received for chunking", message_id=message_id)
             return None
 
-        # --- 1️⃣ Chunking via le moteur ---
+        # Chunk via moteur
         chunks = self.engine.chunk(text)
 
-        # --- 2️⃣ Enrichissement du message ---
+        # Message enrichment
         msg["chunks"] = chunks
         msg["num_chunks"] = len(chunks)
 
-        # --- 3️⃣ Métriques ---
+        # Métriques
         increment_chunks(self.worker_name, len(chunks))
 
-        # --- 4️⃣ Retourne le message enrichi pour publication ---
+        # Returns enriched message for publication
         return msg

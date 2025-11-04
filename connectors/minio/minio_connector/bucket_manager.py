@@ -1,15 +1,17 @@
 # src/utils/bucket_manager.py
 import json
-from src.minio_connector.minio_connection import MinioConnection
+from connectors.minio.minio_connector.minio_connection import MinioConnection
 from metrics.monitoring import increment_messages, observe_processing_time, increment_errors
 from logs.logger import logger
 
+# ====== BUCKET MANAGER ======
 class BucketManager:
+    # Set up
     def __init__(self):
         self.client = MinioConnection().client
 
+    # Create bucket
     def create_bucket(self, bucket_name: str):
-        """Crée un nouveau bucket MinIO si non existant"""
         try:
             existing_buckets = [b['Name'] for b in self.client.list_buckets().get('Buckets', [])]
             if bucket_name in existing_buckets:
@@ -27,8 +29,8 @@ class BucketManager:
             increment_errors(worker="bucket_manager", error_type=type(e).__name__)
             return False
 
+    # Upload json
     def upload_json(self, bucket_name: str, file_name: str, data: dict):
-        """Upload un dictionnaire Python comme fichier JSON dans le bucket"""
         try:
             json_bytes = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
             self.client.put_object(

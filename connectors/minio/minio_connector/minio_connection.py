@@ -4,10 +4,13 @@ from botocore.exceptions import ClientError
 from utils.config import settings
 import logging
 
+# ====== LOGGING ======
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# ====== MINIO CONNECTION ======
 class MinioConnection:
+    # Set up
     def __init__(self, project_name: str = "finance-rag"):
         self.project_name = project_name
         self.client = boto3.client(
@@ -18,6 +21,7 @@ class MinioConnection:
         )
         self.required_buckets = ["raw-urls", "raw-pdfs"]
 
+    # Validate connection
     def validate_connection(self) -> bool:
         try:
             self.client.list_buckets()
@@ -27,8 +31,8 @@ class MinioConnection:
             logger.error(f"MinIO connection failed: {e}")
             return False
 
+    # Validate buckets
     def validate_buckets(self) -> bool:
-        """Vérifie uniquement que tous les buckets requis existent."""
         if not self.validate_connection():
             return False
         try:
@@ -47,6 +51,6 @@ class MinioConnection:
 
         return all_buckets_exist
 
-    # Exemple pour lister les objets d’un bucket avec préfixe
+    # Example for listing bucket objects with prefix
     def list_objects(self, bucket_name: str):
         return self.client.list_objects_v2(Bucket=bucket_name, Prefix=f"{self.project_name}/")

@@ -1,37 +1,36 @@
-# src/workers/embedding_worker.py
+# workers/embedding_worker.py
 from workers.base_worker import BaseWorker
 from src.embedding.embedding_engine import EmbeddingEngine
 from src.core.config_loader import load_config
 from logs.logger import logger
-from metrics.monitoring import increment_messages, observe_processing_time, increment_errors, Gauge
+from metrics.monitoring import increment_messages, observe_processing_time, increment_errors, embedding_chunks_processed, Gauge
 
-# métrique spécifique pour l'embedding
-embedding_chunks_processed = Gauge(
-    "embedding_chunks_processed",
-    "Number of chunks embedded per worker",
-    ["worker"]
-)
+# # embedding metrics
+# embedding_chunks_processed = Gauge(
+#     "embedding_chunks_processed",
+#     "Number of chunks embedded per worker",
+#     ["worker"]
+# )
 
+# ====== EMBEDDING WORKER ======
 class EmbeddingWorker(BaseWorker):
-    """
-    Worker qui transforme les chunks en vecteurs numériques (embeddings).
-    Pipeline : chunks prétraités → embedding → ajout dans message
-    """
+    # Set up
     input_queue = "chunked_messages"
     output_queue = "embedded_messages"
     worker_name = "EmbeddingWorker"
 
-    def __init__(self, config_path="embedding/embedding_config.yaml", model_client=None):
+    def __init__(self, config_path="src/embedding/configs/embedding_config.yaml", model_client=None):
         super().__init__(worker_name=self.worker_name)
         self.config = load_config(config_path)
         self.engine = EmbeddingEngine(self.config, model_client=model_client)
 
+    # Wrap message
     def process_message(self, msg: dict):
         message_id = msg.get("id")
         chunks = msg.get("chunks", [])
 
         if not chunks:
-            logger.warning("Aucun chunk trouvé pour embedding", message_id=message_id)
+            logger.warning("No chunk found for embedding", message_id=message_id)
             return None
 
         vectors = []
@@ -42,7 +41,7 @@ class EmbeddingWorker(BaseWorker):
             msg["embeddings"] = vectors
             msg["num_embeddings"] = len(vectors)
 
-            # métriques
+            # metrics
             embedding_chunks_processed.labels(worker=self.worker_name).set(len(vectors))
         except Exception as e:
             increment_errors(self.worker_name, error_type="embedding_error")

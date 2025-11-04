@@ -3,7 +3,9 @@ from pymilvus import connections, Collection, FieldSchema, CollectionSchema, Dat
 import yaml
 from logs.logger import logger
 
+# ====== MILVUS CONNECTION ======
 class MilvusConnection:
+    # Set up
     def __init__(self, config_path: str):
         with open(config_path, "r") as f:
             config = yaml.safe_load(f)["milvus"]
@@ -17,6 +19,7 @@ class MilvusConnection:
         self.collection = None
         self.connect()
 
+    # Connect
     def connect(self):
         try:
             connections.connect(alias="default", host=self.host, port=self.port)
@@ -26,8 +29,8 @@ class MilvusConnection:
             logger.error("Erreur connexion Milvus", error=str(e))
             raise
 
+    # Define schema
     def _init_collection(self):
-        # Define schema
         fields = [
             FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=self.dimension),
             FieldSchema(name="chunk_id", dtype=DataType.VARCHAR, max_length=64),
@@ -41,6 +44,5 @@ class MilvusConnection:
             self.collection = Collection(self.collection_name, schema=schema)
             logger.info("Collection Milvus ready", collection=self.collection_name)
         except Exception:
-            # si collection existe déjà
             self.collection = Collection(self.collection_name)
             logger.info("Collection Milvus déjà existante", collection=self.collection_name)

@@ -8,7 +8,7 @@ from metrics.monitoring import (
     increment_errors
 )
 from src.chunking.chunker_strategies import ChunkStrategies
-from src.chunking.chunk_utils import ChunkUtils
+from src.chunking.chunk_utils import ChunkerUtils
 
 # ====== CHUNKING ENGINE ======
 class ChunkerEngine:
@@ -19,7 +19,7 @@ class ChunkerEngine:
         self.overlap = config.get("overlap", 50)
         self.worker_name = "ChunkerWorker"
         self.strategies = ChunkStrategies(self.max_tokens, self.overlap)
-        self.utils = ChunkUtils()
+        self.utils = ChunkerUtils()
 
     # Apply chunking
     def chunk(self, text: str) -> List[Dict]:

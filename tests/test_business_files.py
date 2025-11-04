@@ -25,24 +25,24 @@ Le Retrieval Layer transforme les requêtes utilisateurs en contexte structuré 
 """
 
 def main():
-    # Étape 1️⃣ — Nettoyage du texte
+    # Clean
     cleaned = clean_text(sample_text)
     print("✅ Texte nettoyé :")
     print(cleaned[:200], "...")  # aperçu
     print("-" * 80)
 
-    # Étape 2️⃣ — Déduplication
+    # Dedupe
     deduped = dedupe_document(cleaned)
     print("✅ Texte dédupliqué :")
     print(deduped[:200], "...")
     print("-" * 80)
 
-    # Étape 3️⃣ — Détection de langue
+    # Dtect language
     language = detect_language(deduped)
     print(f"✅ Langue détectée : {language}")
     print("-" * 80)
 
-    # Étape 4️⃣ — Chunking
+    # Chunking
     chunk_config = {
         "strategy": "by_tokens",  # ou "by_tokens", "by_paragraph"
         "max_tokens": 128,
@@ -56,7 +56,7 @@ def main():
         print(f"Chunk {i}: {chunk['content'][:100]}...")
     print("-" * 80)
 
-    # Étape 5️⃣ — Embedding (mock)
+    # Embedding (mock)
     embedding_config = {
         "model": "mock-model",
         "dimension": 1536,

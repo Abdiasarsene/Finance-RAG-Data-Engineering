@@ -16,7 +16,7 @@ def test_rabbitmq_connection_and_publish_consume():
     message = {"test": "hello"}
     client.publish(QUEUE_NAME, message)
 
-    # 3️⃣ Consume  message
+    # Consume  message
     received_messages = []
 
     def callback(msg):

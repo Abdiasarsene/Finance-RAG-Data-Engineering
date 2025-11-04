@@ -1,12 +1,12 @@
-# src/workers/base_worker.py
+# workers/base_worker.py
 import time
 import traceback
 from abc import ABC, abstractmethod
-from connectors.rabbitmq.rabbitmq_client import RabbitMQCLient
+from connectors.rabbitmq.rabbitmq_client import RabbitMQClient
 from metrics.monitoring import increment_messages, observe_processing_time
 from logs.logger import logger
 
-
+# ====== PARENT CLASS = BASEWORKER ======
 class BaseWorker(ABC):
     """
     Base class for all workers.
@@ -24,19 +24,18 @@ class BaseWorker(ABC):
     max_retries: int = 3           # number of automatic retries on failure
     worker_name: str = "BaseWorker"
 
+    # Set up 
     def __init__(self, worker_name: str = None):
         if worker_name:
             self.worker_name = worker_name
-        self.rabbitmq = RabbitMQCLient()
+        self.rabbitmq = RabbitMQClient()
         if self.input_queue:
             self.rabbitmq.declare_queue(self.input_queue)
         if self.output_queue:
             self.rabbitmq.declare_queue(self.output_queue)
 
+    # Start consuming
     def start(self):
-        """
-        Start consuming messages from the input queue.
-        """
         if not self.input_queue:
             raise ValueError("input_queue must be defined in the subclass")
 
@@ -48,10 +47,8 @@ class BaseWorker(ABC):
         finally:
             self.rabbitmq.close()
 
+    # Wrap around process message (log, retries, metrics and publishing)
     def _process_message_wrapper(self, msg: dict):
-        """
-        Wrapper around process_message to handle logging, metrics, retries and publishing.
-        """
         retries = 0
         while retries <= self.max_retries:
             start_time = time.time()
