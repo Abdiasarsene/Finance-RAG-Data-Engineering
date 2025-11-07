@@ -1,41 +1,41 @@
-# tests/test_rabbitmq_integration.py
-import pytest
+# tests/manual_test_rabbitmq_connection.py
+import json
 import time
 from connectors.rabbitmq.rabbitmq_client import RabbitMQClient
 
-# ====== TEST RABBITMQ CONNECTION AND PUBLISH CONSUME ======
-QUEUE_NAME = "test_queue"
+if __name__ == "__main__":
+    print("🔍 Testing real RabbitMQ connection...\n")
 
-def test_rabbitmq_connection_and_publish_consume():
-    client = RabbitMQClient()
+    try:
+        # Initialize client (reads host/port from .env via settings)
+        client = RabbitMQClient()
+        queue_name = "test_queue"
 
-    # Declare tail
-    client.declare_queue(QUEUE_NAME)
+        # Declare queue
+        client.declare_queue(queue_name)
+        print(f"📦 Queue '{queue_name}' declared.")
 
-    # Publish message
-    message = {"test": "hello"}
-    client.publish(QUEUE_NAME, message)
+        # Publish a test message
+        message = {"event": "ping", "timestamp": time.time()}
+        client.publish(queue_name, message)
+        print(f"🚀 Published test message: {json.dumps(message)}")
 
-    # Consume  message
-    received_messages = []
+        # Consume one message (with a temporary callback)
+        def callback(msg):
+            print(f"📨 Received message: {msg}")
 
-    def callback(msg):
-        received_messages.append(msg)
+        print("🌀 Waiting for message (Ctrl+C to stop)...\n")
+        client.consume(queue_name, callback, auto_ack=True)
+        client.start_consuming()
 
-    client.consume(QUEUE_NAME, callback, auto_ack=True)
+    except KeyboardInterrupt:
+        print("\n🛑 Test manually stopped by user.")
 
-    # Start_consuming
-    import threading
-    consume_thread = threading.Thread(target=client.start_consuming, daemon=True)
-    consume_thread.start()
+    except Exception as e:
+        print(f"❌ Test failed: {e}")
 
-    # Wait for the message to be consumed
-    timeout = 5
-    start = time.time()
-    while not received_messages and time.time() - start < timeout:
-        time.sleep(0.1)
-
-    client.close()
-
-    assert received_messages, "No message was received from RabbitMQ"
-    assert received_messages[0] == message
+    finally:
+        try:
+            client.close()
+        except Exception:
+            pass

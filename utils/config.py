@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     finance_queue: str
     embedding_queue: str
     
+    # Milvus 
+    milvus_yaml: str
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8"
