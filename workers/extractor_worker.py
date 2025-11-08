@@ -32,7 +32,7 @@ class ExtractDataWorker(BaseWorker):
                 self.bucket_manager.upload_json(self.processed_bucket, f"{pdf_name}.json", json_data)
                 validate_json(json_data, message_id=pdf_name)
                 processed_files.append(pdf_name)
-            except Exception as e:
+            except Exception:
                 continue
 
         # Urls extract
@@ -42,7 +42,7 @@ class ExtractDataWorker(BaseWorker):
                 self.bucket_manager.upload_json(self.processed_bucket, f"{url_name}.json", json_data)
                 validate_json(json_data, message_id=url_name)
                 processed_files.append(url_name)
-            except Exception as e:
+            except Exception:
                 continue
 
         # Back to pipeline

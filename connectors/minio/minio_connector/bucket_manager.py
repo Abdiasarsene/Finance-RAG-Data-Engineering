@@ -1,7 +1,7 @@
 # src/utils/bucket_manager.py
 import json
 from connectors.minio.minio_connector.minio_connection import MinioConnection
-from metrics.monitoring import increment_messages, observe_processing_time, increment_errors
+from metrics.monitoring import increment_errors
 from logs.logger import logger
 
 # ====== BUCKET MANAGER ======

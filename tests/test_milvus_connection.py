@@ -4,7 +4,7 @@ Run this file directly:  python tests/manual_test_milvus_connection.py
 """
 
 from connectors.milvus.milvus_connection import MilvusConnection
-from pymilvus import connections, list_collections, utility
+from pymilvus import connections, list_collections
 import sys
 import time
 

@@ -1,5 +1,3 @@
-import json
-from pathlib import Path
 from jsonschema import validate, ValidationError
 from logs.logger import logger
 from json_container.schema_loader import load_base_schema  # mieux que de recharger le fichier ici

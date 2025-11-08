@@ -1,7 +1,6 @@
 # src/collectors/pdf_extract.py
 import io
 from datetime import datetime, timezone
-from pathlib import Path
 import PyPDF2
 from json_container.schema_loader import load_base_schema
 from connectors.minio.minio_connector.minio_connection import MinioConnection

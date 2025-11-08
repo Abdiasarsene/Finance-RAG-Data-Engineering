@@ -3,7 +3,6 @@ import io
 import json
 import time
 from datetime import datetime, timezone
-from pathlib import Path
 from json_container.schema_loader import load_base_schema
 from connectors.minio.minio_connector.minio_connection import MinioConnection
 from metrics.monitoring import increment_messages, observe_processing_time, increment_errors

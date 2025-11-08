@@ -1,12 +1,5 @@
-networks:
-  finance-rag-backend:
-    driver: bridge
-
-volumes:
-  minio_data:
-
 services:
-  # MinIO déjà existant
+  # MinIO
   minio:
     image: minio/minio:latest
     container_name: minio
@@ -22,7 +15,7 @@ services:
     networks:
       - finance-rag-backend
 
-  # Etcd pour Milvus
+  # Etcd for Milvus
   etcd:
     image: quay.io/coreos/etcd:v3.5.9
     container_name: milvus-etcd
@@ -34,7 +27,7 @@ services:
     networks:
       - finance-rag-backend
 
-  # Milvus en standalone
+  # Milvus in standalone
   milvus:
     image: milvusdb/milvus:v2.3.5
     container_name: milvus
@@ -53,7 +46,7 @@ services:
     networks:
       - finance-rag-backend
 
-  # RabbitMQ existant
+  # RabbitMQ
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -62,3 +55,26 @@ services:
       - "15672:15672"
     networks:
       - finance-rag-backend
+  
+  # Elastic Search for Lexical search
+  elasticsearch_search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
+    container_name: elastic_search
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - cluster.name=search-cluster
+    ports:
+      - "9202:9200"
+    volumes:
+      - elastic_search_finance_data:/usr/share/elasticsearch/data
+    networks:
+      - finance-rag-backend
+
+networks:
+  finance-rag-backend:
+    driver: bridge
+
+volumes:
+  minio_data:
+  elastic_search_finance_data:

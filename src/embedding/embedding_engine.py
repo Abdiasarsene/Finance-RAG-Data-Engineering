@@ -1,6 +1,5 @@
 # src/embedding/embedding_engine.py
 from logs.logger import logger
-import time
 
 # ====== EMBEDDING ENGINE ======
 class EmbeddingEngine:

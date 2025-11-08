@@ -3,7 +3,7 @@ from workers.base_worker import BaseWorker
 from src.embedding.embedding_engine import EmbeddingEngine
 from src.core.config_loader import load_config
 from logs.logger import logger
-from metrics.monitoring import increment_messages, observe_processing_time, increment_errors, embedding_chunks_processed, Gauge
+from metrics.monitoring import increment_errors, embedding_chunks_processed
 
 # # embedding metrics
 # embedding_chunks_processed = Gauge(
