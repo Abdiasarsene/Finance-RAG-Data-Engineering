@@ -64,12 +64,8 @@ Processing, Chunking & Embedding – Texts are cleaned, deduplicated, language-d
 
 ## 🚀 What’s Next
 
-This Data Engineering foundation is already **production-ready**.
-The next modules (multi-repo strategy) will deliver full GenAI business value:
-
-1. **Retrieval Layer** – Vector DB + semantic search
-2. **LLM Integration** – LangChain orchestration & prompt pipeline
-3. **Evaluation & QA** – RAG benchmarks & regression testing
-4. **Serving API** – Real-time access for applications
-5. **LLMOps** – Monitoring, versioning, rollout strategies
-6. *(optional)* **Agents** – Autonomous financial insights & actions
+* **[Finance-RAG-Retriever-Layer](https://github.com/Abdiasarsene/Finance-RAG-Retriever-Layer)**
+* **[Finance-RAG-LLM-Integration](https://github.com/Abdiasarsene/Finance-RAG-LLM-Integration)**
+* **Finance-RAG-Agents**
+* **Finance-RAG-Serving-API**
+* **Finance-RAG-LLMops**
