@@ -42,27 +42,7 @@ Processing, Chunking & Embedding – Texts are cleaned, deduplicated, language-d
 
 ## 🏗️ Architecture Snapshot
 
-```
-                +-----------------+
-                |   Data Sources   |
-                +---------+-------+
-                          |
-                          v
-               [Ingestion Worker]
-                          |
-                          v
-               [Chunking Worker]
-                          |
-                          v
-            [Embedding Generation Worker]
-                          |
-                          v
-                   Object Storage (MinIO)
-                          |
-                          v
-               Observability & Monitoring
-                 (Centralized Logging)
-```
+[Roadmap Data Engineering](./statics/data-engineering-llm.png)
 
 ---
 
