@@ -42,7 +42,7 @@ Processing, Chunking & Embedding – Texts are cleaned, deduplicated, language-d
 
 ## 🏗️ Architecture Snapshot
 
-[Roadmap Data Engineering](./statics/data-engineering-llm.png)
+[Roadmap Data Engineering](./statics/engineering.png)
 
 ---
 
